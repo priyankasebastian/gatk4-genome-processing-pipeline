@@ -455,7 +455,7 @@ task GenerateSubsettedContaminationResources {
   >>>
   runtime {
     preemptible: preemptible_tries
-    memory: "3.5 GiB"
+    memory: "100.5 GiB"
     disks: "local-disk 10 HDD"
     docker: "us.gcr.io/broad-gotc-prod/bedtools:2.27.1"
   }
