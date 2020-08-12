@@ -16,6 +16,7 @@ version 1.0
 ## licensing information pertaining to the included programs.
 
 # Sort BAM file by coordinate order
+# Sort BAM file by coordinate order
 task SortSam {
   input {
     File input_bam
@@ -25,25 +26,29 @@ task SortSam {
   }
   # SortSam spills to disk a lot more because we are only store 300000 records in RAM now because its faster for our data so it needs
   # more disk space.  Also it spills to disk in an uncompressed format so we need to account for that with a larger multiplier
-  Float sort_sam_disk_multiplier = 3.25
+  #Float sort_sam_disk_multiplier = 3.25
+  Float sort_sam_disk_multiplier = 10.25
   Int disk_size = ceil(sort_sam_disk_multiplier * size(input_bam, "GiB")) + 20
 
   command {
-    java -Dsamjdk.compression_level=~{compression_level} -Xms4000m -jar /usr/gitc/picard.jar \
+    java -Dsamjdk.compression_level=~{compression_level} -Xms200000m -jar /usr/gitc/picard.jar \
       SortSam \
       INPUT=~{input_bam} \
       OUTPUT=~{output_bam_basename}.bam \
       SORT_ORDER="coordinate" \
       CREATE_INDEX=true \
       CREATE_MD5_FILE=true \
-      MAX_RECORDS_IN_RAM=300000
+      #MAX_RECORDS_IN_RAM=300000
+      #MAX_RECORDS_IN_RAM=1000000
+      #onprem wdl has this value https://github.com/gatk-workflows/intel-gatk4-germline-snps-indels/blob/master/PairedSingleSampleWf_noqc_nocram_optimized.w#dl
+      MAX_RECORDS_IN_RAM=2700000
 
   }
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     disks: "local-disk " + disk_size + " HDD"
-    cpu: "1"
-    memory: "5000 MiB"
+    cpu: "20"
+    memory: "5 GiB"
     preemptible: preemptible_tries
   }
   output {
