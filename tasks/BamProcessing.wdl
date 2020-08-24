@@ -16,7 +16,6 @@ version 1.0
 ## licensing information pertaining to the included programs.
 
 # Sort BAM file by coordinate order
-# Sort BAM file by coordinate order
 task SortSam {
   input {
     File input_bam
@@ -26,29 +25,25 @@ task SortSam {
   }
   # SortSam spills to disk a lot more because we are only store 300000 records in RAM now because its faster for our data so it needs
   # more disk space.  Also it spills to disk in an uncompressed format so we need to account for that with a larger multiplier
-  #Float sort_sam_disk_multiplier = 3.25
-  Float sort_sam_disk_multiplier = 10.25
+  Float sort_sam_disk_multiplier = 3.25
   Int disk_size = ceil(sort_sam_disk_multiplier * size(input_bam, "GiB")) + 20
 
   command {
-    java -Dsamjdk.compression_level=~{compression_level} -Xms200g -jar /usr/gitc/picard.jar \
+    java -Dsamjdk.compression_level=~{compression_level} -Xms4000m -jar /usr/gitc/picard.jar \
       SortSam \
       INPUT=~{input_bam} \
       OUTPUT=~{output_bam_basename}.bam \
       SORT_ORDER="coordinate" \
       CREATE_INDEX=true \
       CREATE_MD5_FILE=true \
-      #MAX_RECORDS_IN_RAM=300000
-      #MAX_RECORDS_IN_RAM=1000000
-      #onprem wdl has this value https://github.com/gatk-workflows/intel-gatk4-germline-snps-indels/blob/master/PairedSingleSampleWf_noqc_nocram_optimized.w#dl
-      MAX_RECORDS_IN_RAM=2700000
+      MAX_RECORDS_IN_RAM=300000
 
   }
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     disks: "local-disk " + disk_size + " HDD"
-    cpu: "20"
-    memory: "5 GiB"
+    cpu: "1"
+    memory: "5000 MiB"
     preemptible: preemptible_tries
   }
   output {
@@ -460,7 +455,7 @@ task GenerateSubsettedContaminationResources {
   >>>
   runtime {
     preemptible: preemptible_tries
-    memory: "100.5 GiB"
+    memory: "3.5 GiB"
     disks: "local-disk 10 HDD"
     docker: "us.gcr.io/broad-gotc-prod/bedtools:2.27.1"
   }
@@ -543,7 +538,7 @@ task CheckContamination {
   >>>
   runtime {
     preemptible: preemptible_tries
-    memory: "100.5 GiB"
+    memory: "7.5 GiB"
     disks: "local-disk " + disk_size + " HDD"
     docker: "us.gcr.io/broad-gotc-prod/verify-bam-id:c1cba76e979904eb69c31520a0d7f5be63c72253-1553018888"
     cpu: 2
