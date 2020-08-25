@@ -45,6 +45,8 @@ task SortSam {
     cpu: "1"
     memory: "5000 MiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Cascade Lake"
+
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -85,6 +87,8 @@ task SortSamSpark {
     cpu: "16"
     memory: "102 GiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Cascade Lake"
+
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -197,6 +201,8 @@ task MarkDuplicatesSpark {
     cpu: cpu_size
     memory: "~{memory_size} GiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Cascade Lake"
+
   }
 
   output {
@@ -542,6 +548,8 @@ task CheckContamination {
     disks: "local-disk " + disk_size + " HDD"
     docker: "us.gcr.io/broad-gotc-prod/verify-bam-id:c1cba76e979904eb69c31520a0d7f5be63c72253-1553018888"
     cpu: 2
+    cpuPlatform: "Intel Cascade Lake"
+
   }
   output {
     File selfSM = "~{output_prefix}.selfSM"

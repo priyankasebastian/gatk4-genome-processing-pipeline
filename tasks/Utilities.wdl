@@ -150,6 +150,8 @@ task ConvertToCram {
     memory: "3 GiB"
     cpu: "1"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Cascade Lake"
+
   }
   output {
     File output_cram = "~{output_basename}.cram"
@@ -181,6 +183,8 @@ task ConvertToBam {
     memory: "3 GiB"
     cpu: "1"
     disks: "local-disk 200 HDD"
+    cpuPlatform: "Intel Cascade Lake"
+
   }
   output {
     File output_bam = "~{output_basename}.bam"

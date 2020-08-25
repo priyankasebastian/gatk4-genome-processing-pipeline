@@ -70,6 +70,8 @@ task HaplotypeCaller_GATK35_GVCF {
     memory: "10 GiB"
     cpu: "1"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Cascade Lake"
+
   }
   output {
     File output_gvcf = "~{gvcf_basename}.vcf.gz"
@@ -132,6 +134,8 @@ task HaplotypeCaller_GATK4_VCF {
     memory: "6.5 GiB"
     cpu: "2"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Cascade Lake"
+
   }
 
   output {
@@ -253,6 +257,8 @@ task CNNScoreVariants {
     memory: "15 GiB"
     cpu: "2"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Cascade Lake"
+
   }
 }
 
@@ -310,5 +316,7 @@ task FilterVariantTranches {
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
     docker: gatk_docker
-  }
+    cpuPlatform: "Intel Cascade Lake"
+ 
+ }
 }

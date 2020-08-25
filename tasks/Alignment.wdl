@@ -121,6 +121,8 @@ task SamToFastqAndBwaMemAndMba {
     memory: "14 GiB"
     cpu: "16"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Cascade Lake"
+
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
