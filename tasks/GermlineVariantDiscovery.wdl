@@ -169,6 +169,7 @@ task MergeVCFs {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk ~{disk_size} HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File output_vcf = "~{output_vcf_name}"
@@ -207,6 +208,7 @@ task HardFilterVcf {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
 }
 

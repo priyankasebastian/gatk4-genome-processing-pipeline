@@ -144,6 +144,7 @@ task MarkDuplicates {
     preemptible: preemptible_tries
     memory: "~{memory_size} GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -257,6 +258,7 @@ task BaseRecalibrator {
     preemptible: preemptible_tries
     memory: "6 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File recalibration_report = "~{recalibration_report_filename}"
@@ -320,6 +322,7 @@ task ApplyBQSR {
     preemptible: preemptible_tries
     memory: "~{memory_size} MiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File recalibrated_bam = "~{output_bam_basename}.bam"
@@ -347,6 +350,7 @@ task GatherBqsrReports {
     preemptible: preemptible_tries
     memory: "3500 MiB"
     disks: "local-disk 20 HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File output_bqsr_report = "~{output_report_filename}"
@@ -379,6 +383,7 @@ task GatherSortedBamFiles {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -414,6 +419,7 @@ task GatherUnsortedBamFiles {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -464,6 +470,7 @@ task GenerateSubsettedContaminationResources {
     memory: "3.5 GiB"
     disks: "local-disk 10 HDD"
     docker: "us.gcr.io/broad-gotc-prod/bedtools:2.27.1"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File subsetted_contamination_ud = output_ud

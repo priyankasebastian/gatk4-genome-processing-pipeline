@@ -37,6 +37,7 @@ task CollectQualityYieldMetrics {
     disks: "local-disk " + disk_size + " HDD"
     memory: "3 GiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File quality_yield_metrics = "~{metrics_filename}"
@@ -75,6 +76,7 @@ task CollectUnsortedReadgroupBamQualityMetrics {
     memory: "7 GiB"
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File base_distribution_by_cycle_pdf = "~{output_bam_prefix}.base_distribution_by_cycle.pdf"
@@ -127,6 +129,7 @@ task CollectReadgroupBamQualityMetrics {
     memory: "7 GiB"
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File alignment_summary_metrics = "~{output_bam_prefix}.alignment_summary_metrics"
@@ -181,6 +184,7 @@ task CollectAggregationMetrics {
     memory: "7 GiB"
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File alignment_summary_metrics = "~{output_bam_prefix}.alignment_summary_metrics"
@@ -231,6 +235,7 @@ task ConvertSequencingArtifactToOxoG {
       memory: "~{memory_size} GiB"
       disks: "local-disk " + disk_size + " HDD"
       preemptible: preemptible_tries
+      cpuPlatform: "Intel Skylake"
     }
     output {
       File oxog_metrics = "~{base_name}.oxog_metrics"
@@ -269,6 +274,7 @@ task CrossCheckFingerprints {
     preemptible: preemptible_tries
     memory: "2 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File cross_check_fingerprints_metrics = "~{metrics_filename}"
@@ -313,6 +319,7 @@ task CheckFingerprint {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File summary_metrics = summary_metrics_location
@@ -361,6 +368,7 @@ task CheckPreValidation {
     preemptible: preemptible_tries
     docker: "us.gcr.io/broad-gotc-prod/python:2.7"
     memory: "2 GiB"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     Float duplication_rate = read_float("duplication_value.txt")
@@ -408,6 +416,7 @@ task ValidateSamFile {
     preemptible: preemptible_tries
     memory: "~{memory_size} GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File report = "~{report_filename}"
@@ -447,6 +456,7 @@ task CollectWgsMetrics {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File metrics = "~{metrics_filename}"
@@ -491,6 +501,7 @@ task CollectRawWgsMetrics {
     preemptible: preemptible_tries
     memory: "~{memory_size} GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File metrics = "~{metrics_filename}"
@@ -539,6 +550,7 @@ task CollectHsMetrics {
     preemptible: preemptible_tries
     memory: "~{memory_size} GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
 
   output {
@@ -568,6 +580,7 @@ task CalculateReadGroupChecksum {
     preemptible: preemptible_tries
     memory: "2 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     File md5_file = "~{read_group_md5_filename}"
@@ -608,6 +621,7 @@ task ValidateVCF {
     preemptible: preemptible_tries
     memory: "7000 MiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
   }
 }
 
@@ -642,6 +656,8 @@ task CollectVariantCallingMetrics {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
+
   }
   output {
     File summary_metrics = "~{metrics_basename}.variant_calling_summary_metrics"

@@ -64,6 +64,7 @@ task CreateSequenceGroupingTSV {
     preemptible: preemptible_tries
     docker: "us.gcr.io/broad-gotc-prod/python:2.7"
     memory: "2 GiB"
+    cpuPlatform: "Intel Skylake"
   }
   output {
     Array[Array[String]] sequence_grouping = read_tsv("sequence_grouping.txt")
@@ -112,6 +113,7 @@ task ScatterIntervalList {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     memory: "2 GiB"
+    cpuPlatform: "Intel Skylake"
   }
 }
 
@@ -208,5 +210,6 @@ task SumFloats {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/python:2.7"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
   }
 }
