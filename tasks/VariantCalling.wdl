@@ -182,5 +182,7 @@ task MergeBamouts {
     disks: "local-disk ~{disk_size} HDD"
     preemptible: 3
     cpu: 1
+    cpuPlatform: "Intel Broadwell"
+
   }
 }

@@ -37,6 +37,7 @@ task CollectQualityYieldMetrics {
     disks: "local-disk " + disk_size + " HDD"
     memory: "3 GiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File quality_yield_metrics = "~{metrics_filename}"
@@ -75,6 +76,7 @@ task CollectUnsortedReadgroupBamQualityMetrics {
     memory: "7 GiB"
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File base_distribution_by_cycle_pdf = "~{output_bam_prefix}.base_distribution_by_cycle.pdf"
@@ -127,6 +129,7 @@ task CollectReadgroupBamQualityMetrics {
     memory: "7 GiB"
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File alignment_summary_metrics = "~{output_bam_prefix}.alignment_summary_metrics"
@@ -181,6 +184,7 @@ task CollectAggregationMetrics {
     memory: "7 GiB"
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File alignment_summary_metrics = "~{output_bam_prefix}.alignment_summary_metrics"
@@ -231,6 +235,7 @@ task ConvertSequencingArtifactToOxoG {
       memory: "~{memory_size} GiB"
       disks: "local-disk " + disk_size + " HDD"
       preemptible: preemptible_tries
+      cpuPlatform: "Intel Broadwell"
     }
     output {
       File oxog_metrics = "~{base_name}.oxog_metrics"
@@ -269,6 +274,7 @@ task CrossCheckFingerprints {
     preemptible: preemptible_tries
     memory: "2 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File cross_check_fingerprints_metrics = "~{metrics_filename}"
@@ -313,6 +319,7 @@ task CheckFingerprint {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File summary_metrics = summary_metrics_location
@@ -361,6 +368,7 @@ task CheckPreValidation {
     preemptible: preemptible_tries
     docker: "us.gcr.io/broad-gotc-prod/python:2.7"
     memory: "2 GiB"
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     Float duplication_rate = read_float("duplication_value.txt")
@@ -381,26 +389,25 @@ task ValidateSamFile {
     Array[String]? ignore
     Boolean? is_outlier_data
     Int preemptible_tries
-    Int memory_multiplier = 3
-    Int additional_disk = 50
+    Int memory_multiplier = 1
+    Int additional_disk = 20
   }
 
   Float ref_size = size(ref_fasta, "GiB") + size(ref_fasta_index, "GiB") + size(ref_dict, "GiB")
   Int disk_size = ceil(size(input_bam, "GiB") + ref_size) + additional_disk
 
   Int memory_size = ceil(7 * memory_multiplier)
-  #Int java_memory_size = (memory_size - 1) * 1000
+  Int java_memory_size = (memory_size - 1) * 1000
 
   command {
-    java -Xms100g -jar /usr/gitc/picard.jar \
+    java -Xms~{java_memory_size}m -jar /usr/gitc/picard.jar \
       ValidateSamFile \
       INPUT=~{input_bam} \
       OUTPUT=~{report_filename} \
       REFERENCE_SEQUENCE=~{ref_fasta} \
       ~{"MAX_OUTPUT=" + max_output} \
       IGNORE=~{default="null" sep=" IGNORE=" ignore} \
-      #MODE=VERBOSE \
-      MODE=SUMMARY \
+      MODE=VERBOSE \
       ~{default='SKIP_MATE_VALIDATION=false' true='SKIP_MATE_VALIDATION=true' false='SKIP_MATE_VALIDATION=false' is_outlier_data} \
       IS_BISULFITE_SEQUENCED=false
   }
@@ -409,6 +416,7 @@ task ValidateSamFile {
     preemptible: preemptible_tries
     memory: "~{memory_size} GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File report = "~{report_filename}"
@@ -448,6 +456,7 @@ task CollectWgsMetrics {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File metrics = "~{metrics_filename}"
@@ -492,6 +501,7 @@ task CollectRawWgsMetrics {
     preemptible: preemptible_tries
     memory: "~{memory_size} GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File metrics = "~{metrics_filename}"
@@ -540,6 +550,7 @@ task CollectHsMetrics {
     preemptible: preemptible_tries
     memory: "~{memory_size} GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
 
   output {
@@ -569,6 +580,7 @@ task CalculateReadGroupChecksum {
     preemptible: preemptible_tries
     memory: "2 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
   output {
     File md5_file = "~{read_group_md5_filename}"
@@ -609,6 +621,7 @@ task ValidateVCF {
     preemptible: preemptible_tries
     memory: "7000 MiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
   }
 }
 
@@ -643,6 +656,8 @@ task CollectVariantCallingMetrics {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Broadwell"
+
   }
   output {
     File summary_metrics = "~{metrics_basename}.variant_calling_summary_metrics"
