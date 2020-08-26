@@ -28,12 +28,12 @@ version 1.0
 ## page at https://hub.docker.com/r/broadinstitute/genomes-in-the-cloud/ for detailed
 ## licensing information pertaining to the included programs.
 
-import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/master/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
-import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/master/tasks/AggregatedBamQC.wdl" as AggregatedQC
-import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/master/tasks/Qc.wdl" as QC
-import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/master/tasks/BamToCram.wdl" as ToCram
-import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/master/tasks/VariantCalling.wdl" as ToGvcf
-import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/master/structs/DNASeqStructs.wdl"
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/6hr-skx/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/6hr-skx/tasks/AggregatedBamQC.wdl" as AggregatedQC
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/6hr-skx/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/6hr-skx/tasks/BamToCram.wdl" as ToCram
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/6hr-skx/tasks/VariantCalling.wdl" as ToGvcf
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/6hr-skx/structs/DNASeqStructs.wdl"
 
 # WORKFLOW DEFINITION
 workflow WholeGenomeGermlineSingleSample {

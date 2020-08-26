@@ -147,9 +147,11 @@ task ConvertToCram {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: preemptible_tries
-    memory: "80 GiB"
-    cpu: "4"
+    memory: "3 GiB"
+    cpu: "1"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Skylake"
+
   }
   output {
     File output_cram = "~{output_basename}.cram"
@@ -181,6 +183,8 @@ task ConvertToBam {
     memory: "3 GiB"
     cpu: "1"
     disks: "local-disk 200 HDD"
+    cpuPlatform: "Intel Skylake"
+
   }
   output {
     File output_bam = "~{output_basename}.bam"

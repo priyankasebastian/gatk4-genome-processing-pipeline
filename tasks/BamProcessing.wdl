@@ -45,6 +45,8 @@ task SortSam {
     cpu: "1"
     memory: "5000 MiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
+
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -85,6 +87,8 @@ task SortSamSpark {
     cpu: "16"
     memory: "102 GiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
+
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -197,6 +201,8 @@ task MarkDuplicatesSpark {
     cpu: cpu_size
     memory: "~{memory_size} GiB"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Skylake"
+
   }
 
   output {
@@ -455,7 +461,7 @@ task GenerateSubsettedContaminationResources {
   >>>
   runtime {
     preemptible: preemptible_tries
-    memory: "105.5 GiB"
+    memory: "3.5 GiB"
     disks: "local-disk 10 HDD"
     docker: "us.gcr.io/broad-gotc-prod/bedtools:2.27.1"
   }
@@ -542,6 +548,8 @@ task CheckContamination {
     disks: "local-disk " + disk_size + " HDD"
     docker: "us.gcr.io/broad-gotc-prod/verify-bam-id:c1cba76e979904eb69c31520a0d7f5be63c72253-1553018888"
     cpu: 2
+    cpuPlatform: "Intel Skylake"
+
   }
   output {
     File selfSM = "~{output_prefix}.selfSM"
