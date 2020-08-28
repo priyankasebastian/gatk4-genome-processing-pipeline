@@ -64,6 +64,7 @@ task CreateSequenceGroupingTSV {
     preemptible: preemptible_tries
     docker: "us.gcr.io/broad-gotc-prod/python:2.7"
     memory: "2 GiB"
+    cpuPlatform: "Intel Ivy Bridge"
   }
   output {
     Array[Array[String]] sequence_grouping = read_tsv("sequence_grouping.txt")
@@ -112,6 +113,7 @@ task ScatterIntervalList {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     memory: "2 GiB"
+    cpuPlatform: "Intel Ivy Bridge"
   }
 }
 
@@ -147,9 +149,11 @@ task ConvertToCram {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: preemptible_tries
-    memory: "80 GiB"
-    cpu: "4"
+    memory: "3 GiB"
+    cpu: "1"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Ivy Bridge"
+
   }
   output {
     File output_cram = "~{output_basename}.cram"
@@ -181,6 +185,8 @@ task ConvertToBam {
     memory: "3 GiB"
     cpu: "1"
     disks: "local-disk 200 HDD"
+    cpuPlatform: "Intel Ivy Bridge"
+
   }
   output {
     File output_bam = "~{output_basename}.bam"
@@ -204,5 +210,6 @@ task SumFloats {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/python:2.7"
     preemptible: preemptible_tries
+    cpuPlatform: "Intel Ivy Bridge"
   }
 }

@@ -29,6 +29,7 @@ task GetBwaVersion {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     memory: "1 GiB"
+    cpuPlatform: "Intel Ivy Bridge"
   }
   output {
     String bwa_version = read_string(stdout())
@@ -121,6 +122,8 @@ task SamToFastqAndBwaMemAndMba {
     memory: "14 GiB"
     cpu: "16"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Ivy Bridge"
+
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -161,5 +164,6 @@ task SamSplitter {
     preemptible: preemptible_tries
     memory: "3.75 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Ivy Bridge"
   }
 }

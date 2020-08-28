@@ -70,6 +70,8 @@ task HaplotypeCaller_GATK35_GVCF {
     memory: "10 GiB"
     cpu: "1"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Ivy Bridge"
+
   }
   output {
     File output_gvcf = "~{gvcf_basename}.vcf.gz"
@@ -132,6 +134,8 @@ task HaplotypeCaller_GATK4_VCF {
     memory: "6.5 GiB"
     cpu: "2"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Ivy Bridge"
+
   }
 
   output {
@@ -165,6 +169,7 @@ task MergeVCFs {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk ~{disk_size} HDD"
+    cpuPlatform: "Intel Ivy Bridge"
   }
   output {
     File output_vcf = "~{output_vcf_name}"
@@ -203,6 +208,7 @@ task HardFilterVcf {
     preemptible: preemptible_tries
     memory: "3 GiB"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Ivy Bridge"
   }
 }
 
@@ -253,6 +259,8 @@ task CNNScoreVariants {
     memory: "15 GiB"
     cpu: "2"
     disks: "local-disk " + disk_size + " HDD"
+    cpuPlatform: "Intel Ivy Bridge"
+
   }
 }
 
@@ -310,5 +318,7 @@ task FilterVariantTranches {
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
     docker: gatk_docker
-  }
+    cpuPlatform: "Intel Ivy Bridge"
+ 
+ }
 }
