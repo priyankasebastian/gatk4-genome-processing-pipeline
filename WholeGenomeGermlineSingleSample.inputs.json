@@ -70,7 +70,7 @@
   "WholeGenomeGermlineSingleSample.wgs_coverage_interval_list": "gs://30x-wgs-reference-data/hg38/v0/wgs_coverage_regions.hg38.interval_list",
 
   "WholeGenomeGermlineSingleSample.papi_settings": {
-    "preemptible_tries": 5,
-    "agg_preemptible_tries": 5
+    "preemptible_tries": 3,
+    "agg_preemptible_tries": 3
   }
 }
