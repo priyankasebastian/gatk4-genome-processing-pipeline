@@ -381,26 +381,25 @@ task ValidateSamFile {
     Array[String]? ignore
     Boolean? is_outlier_data
     Int preemptible_tries
-    Int memory_multiplier = 3
-    Int additional_disk = 50
+    Int memory_multiplier = 1
+    Int additional_disk = 20
   }
 
   Float ref_size = size(ref_fasta, "GiB") + size(ref_fasta_index, "GiB") + size(ref_dict, "GiB")
   Int disk_size = ceil(size(input_bam, "GiB") + ref_size) + additional_disk
 
   Int memory_size = ceil(7 * memory_multiplier)
-  #Int java_memory_size = (memory_size - 1) * 1000
+  Int java_memory_size = (memory_size - 1) * 1000
 
   command {
-    java -Xms100g -jar /usr/gitc/picard.jar \
+    java -Xms~{java_memory_size}m -jar /usr/gitc/picard.jar \
       ValidateSamFile \
       INPUT=~{input_bam} \
       OUTPUT=~{report_filename} \
       REFERENCE_SEQUENCE=~{ref_fasta} \
       ~{"MAX_OUTPUT=" + max_output} \
       IGNORE=~{default="null" sep=" IGNORE=" ignore} \
-      #MODE=VERBOSE \
-      MODE=SUMMARY \
+      MODE=VERBOSE \
       ~{default='SKIP_MATE_VALIDATION=false' true='SKIP_MATE_VALIDATION=true' false='SKIP_MATE_VALIDATION=false' is_outlier_data} \
       IS_BISULFITE_SEQUENCED=false
   }

@@ -116,6 +116,9 @@ task HaplotypeCaller_GATK4_VCF {
       -L ~{interval_list} \
       -O ~{output_file_name} \
       -contamination ~{default=0 contamination} \
+      --pair-hmm-implementation "FASTEST_AVAILABLE" \
+      --native-pair-hmm-threads 2 \
+      --smith-waterman "FASTEST_AVAILABLE" \
       -G StandardAnnotation -G StandardHCAnnotation ~{true="-G AS_StandardAnnotation" false="" make_gvcf} \
       -new-qual \
       -GQB 10 -GQB 20 -GQB 30 -GQB 40 -GQB 50 -GQB 60 -GQB 70 -GQB 80 -GQB 90 \
