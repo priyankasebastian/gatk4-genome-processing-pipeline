@@ -1,0 +1,3 @@
+{
+    "monitoring_script": "gs://cost-monitoring-scripts-intel/cromwell_monitoring_script-model-info.sh"
+}
