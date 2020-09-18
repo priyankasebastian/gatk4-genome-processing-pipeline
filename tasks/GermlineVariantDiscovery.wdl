@@ -134,7 +134,7 @@ task HaplotypeCaller_GATK4_VCF {
     preemptible: preemptible_tries
     memory: "6.5 GiB"
     cpu: "2"
-    disks: "local-disk " + disk_size + "SSD"
+    disks: "local-disk " + disk_size + " SSD"
   }
 
   output {
