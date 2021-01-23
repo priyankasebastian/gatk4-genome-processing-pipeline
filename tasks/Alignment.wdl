@@ -15,7 +15,9 @@ version 1.0
 ## page at https://hub.docker.com/r/broadinstitute/genomes-in-the-cloud/ for detailed
 ## licensing information pertaining to the included programs.
 
-import "../structs/DNASeqStructs.wdl"
+#import "../structs/GermlineStructs.wdl"
+
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl"
 
 # Get version of BWA
 task GetBwaVersion {
@@ -28,7 +30,7 @@ task GetBwaVersion {
   }
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
-    memory: "1 GiB"
+    memory: "1 GB"
   }
   output {
     String bwa_version = read_string(stdout())
@@ -50,12 +52,11 @@ task SamToFastqAndBwaMemAndMba {
 
     Int compression_level
     Int preemptible_tries
-    Boolean hard_clip_reads = false
   }
 
-  Float unmapped_bam_size = size(input_bam, "GiB")
-  Float ref_size = size(reference_fasta.ref_fasta, "GiB") + size(reference_fasta.ref_fasta_index, "GiB") + size(reference_fasta.ref_dict, "GiB")
-  Float bwa_ref_size = ref_size + size(reference_fasta.ref_alt, "GiB") + size(reference_fasta.ref_amb, "GiB") + size(reference_fasta.ref_ann, "GiB") + size(reference_fasta.ref_bwt, "GiB") + size(reference_fasta.ref_pac, "GiB") + size(reference_fasta.ref_sa, "GiB")
+  Float unmapped_bam_size = size(input_bam, "GB")
+  Float ref_size = size(reference_fasta.ref_fasta, "GB") + size(reference_fasta.ref_fasta_index, "GB") + size(reference_fasta.ref_dict, "GB")
+  Float bwa_ref_size = ref_size + size(reference_fasta.ref_alt, "GB") + size(reference_fasta.ref_amb, "GB") + size(reference_fasta.ref_ann, "GB") + size(reference_fasta.ref_bwt, "GB") + size(reference_fasta.ref_pac, "GB") + size(reference_fasta.ref_sa, "GB")
   # Sometimes the output is larger than the input, or a task can spill to disk.
   # In these cases we need to account for the input (1) and the output (1.5) or the input(1), the output(1), and spillage (.5).
   Float disk_multiplier = 2.5
@@ -92,8 +93,6 @@ task SamToFastqAndBwaMemAndMba {
         IS_BISULFITE_SEQUENCE=false \
         ALIGNED_READS_ONLY=false \
         CLIP_ADAPTERS=false \
-        ~{true='CLIP_OVERLAPPING_READS=true' false="" hard_clip_reads} \
-        ~{true='CLIP_OVERLAPPING_READS_OPERATOR=H' false="" hard_clip_reads} \
         MAX_RECORDS_IN_RAM=2000000 \
         ADD_MATE_CIGAR=true \
         MAX_INSERTIONS_OR_DELETIONS=-1 \
@@ -116,11 +115,12 @@ task SamToFastqAndBwaMemAndMba {
     fi
   >>>
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330" # TODO: update docker to use the new Picard options
-    preemptible: preemptible_tries
-    memory: "14 GiB"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
+    maxRetries: preemptible_tries
+    memory: "14 GB"
     cpu: "16"
-    disks: "local-disk " + disk_size + " HDD"
+    disk: disk_size + " GB"
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -136,7 +136,7 @@ task SamSplitter {
     Int compression_level
   }
 
-  Float unmapped_bam_size = size(input_bam, "GiB")
+  Float unmapped_bam_size = size(input_bam, "GB")
   # Since the output bams are less compressed than the input bam we need a disk multiplier that's larger than 2.
   Float disk_multiplier = 2.5
   Int disk_size = ceil(disk_multiplier * unmapped_bam_size + 20)
@@ -158,8 +158,9 @@ task SamSplitter {
   }
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
-    preemptible: preemptible_tries
-    memory: "3.75 GiB"
-    disks: "local-disk " + disk_size + " HDD"
+    preemptible: true
+    maxRetries: preemptible_tries
+    memory: "3.75 GB"
+    disk: disk_size + " GB"
   }
 }

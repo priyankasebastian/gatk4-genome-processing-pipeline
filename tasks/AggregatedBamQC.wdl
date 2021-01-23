@@ -15,8 +15,11 @@ version 1.0
 ## page at https://hub.docker.com/r/broadinstitute/genomes-in-the-cloud/ for detailed
 ## licensing information pertaining to the included programs.
 
-import "./Qc.wdl" as QC
-import "../structs/DNASeqStructs.wdl"
+#import "./Qc.wdl" as QC
+#import "../structs/GermlineStructs.wdl"
+
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl"
 
 # WORKFLOW DEFINITION
 workflow AggregatedBamQC {
@@ -26,11 +29,9 @@ input {
     String base_name
     String sample_name
     String recalibrated_bam_base_name
-    File haplotype_database_file
-    DNASeqSingleSampleReferences references
+    File? haplotype_database_file
+    GermlineSingleSampleReferences references
     PapiSettings papi_settings
-    File? fingerprint_genotypes_file
-    File? fingerprint_genotypes_index
   }
 
   # QC the final BAM (consolidated after scattered BQSR)
@@ -57,15 +58,15 @@ input {
       preemptible_tries = papi_settings.agg_preemptible_tries
   }
 
-  if (defined(haplotype_database_file) && defined(fingerprint_genotypes_file)) {
+  if (defined(haplotype_database_file) && defined(references.fingerprint_genotypes_file)) {
     # Check the sample BAM fingerprint against the sample array
     call QC.CheckFingerprint as CheckFingerprint {
       input:
         input_bam = base_recalibrated_bam,
         input_bam_index = base_recalibrated_bam_index,
         haplotype_database_file = haplotype_database_file,
-        genotypes = fingerprint_genotypes_file,
-        genotypes_index = fingerprint_genotypes_index,
+        genotypes = references.fingerprint_genotypes_file,
+        genotypes_index = references.fingerprint_genotypes_index,
         output_basename = base_name,
         sample = sample_name,
         preemptible_tries = papi_settings.agg_preemptible_tries

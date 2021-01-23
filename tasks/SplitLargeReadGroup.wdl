@@ -15,10 +15,15 @@ version 1.0
 ## page at https://hub.docker.com/r/broadinstitute/genomes-in-the-cloud/ for detailed
 ## licensing information pertaining to the included programs.
 
-import "./Alignment.wdl" as Alignment
-import "./BamProcessing.wdl" as Processing
-import "./Utilities.wdl" as Utils
-import "../structs/DNASeqStructs.wdl" as Structs
+#import "./Alignment.wdl" as Alignment
+#import "./BamProcessing.wdl" as Processing
+#import "./Utilities.wdl" as Utils
+#import "../structs/GermlineStructs.wdl" as Structs
+
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Alignment.wdl" as Alignment
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/BamProcessing.wdl" as Processing
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl" as Structs
 
 workflow SplitLargeReadGroup {
 
@@ -37,7 +42,6 @@ workflow SplitLargeReadGroup {
     Int compression_level
     Int preemptible_tries
     Int reads_per_file = 48000000
-    Boolean hard_clip_reads = false
   }
 
   call Alignment.SamSplitter as SamSplitter {
@@ -49,7 +53,7 @@ workflow SplitLargeReadGroup {
   }
 
   scatter(unmapped_bam in SamSplitter.split_bams) {
-    Float current_unmapped_bam_size = size(unmapped_bam, "GiB")
+    Float current_unmapped_bam_size = size(unmapped_bam, "GB")
     String current_name = basename(unmapped_bam, ".bam")
 
     call Alignment.SamToFastqAndBwaMemAndMba as SamToFastqAndBwaMemAndMba {
@@ -60,11 +64,10 @@ workflow SplitLargeReadGroup {
         reference_fasta = reference_fasta,
         bwa_version = bwa_version,
         compression_level = compression_level,
-        preemptible_tries = preemptible_tries,
-        hard_clip_reads = hard_clip_reads
+        preemptible_tries = preemptible_tries
     }
 
-    Float current_mapped_size = size(SamToFastqAndBwaMemAndMba.output_bam, "GiB")
+    Float current_mapped_size = size(SamToFastqAndBwaMemAndMba.output_bam, "GB")
   }
 
   call Utils.SumFloats as SumSplitAlignedSizes {
