@@ -1,6 +1,6 @@
 {
-  "WorkflowUrl": "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/WholeGenomeGermlineSingleSample.wdl",
-  "WorkflowInputsUrl": "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/WholeGenomeGermlineSingleSample.inputs.json",
+  "WorkflowUrl": "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/WholeGenomeGermlineSingleSample.wdl",
+  "WorkflowInputsUrl": "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/WholeGenomeGermlineSingleSample.inputs.json",
   "WorkflowOptionsUrl": null,
   "WorkflowDependenciesUrl": null
 }
