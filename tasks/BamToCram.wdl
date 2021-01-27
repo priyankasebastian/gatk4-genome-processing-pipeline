@@ -3,8 +3,12 @@ version 1.0
 #import "./Utilities.wdl" as Utils
 #import "./Qc.wdl" as QC
 
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Utilities.wdl" as Utils
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Utilities.wdl" as Utils
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
+
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/tasks/Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/tasks/Qc.wdl" as QC
+
 
 workflow BamToCram {
 

@@ -23,12 +23,22 @@ version 1.0
 #import "./Utilities.wdl" as Utils
 #import "../structs/GermlineStructs.wdl" as Structs
 
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Alignment.wdl" as Alignment
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/SplitLargeReadGroup.wdl" as SplitRG
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/BamProcessing.wdl" as Processing
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Utilities.wdl" as Utils
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl" as Structs
+https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/
+
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Alignment.wdl" as Alignment
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/SplitLargeReadGroup.wdl" as SplitRG
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/BamProcessing.wdl" as Processing
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Utilities.wdl" as Utils
+#import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl" as Structs
+
+
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/tasks/Alignment.wdl" as Alignment
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/tasks/SplitLargeReadGroup.wdl" as SplitRG
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/tasks/BamProcessing.wdl" as Processing
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/tasks/Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/priyankasebastian/gatk4-genome-processing-pipeline/microsoft-azure-test/structs/GermlineStructs.wdl" as Structs
 
 # WORKFLOW DEFINITION
 workflow UnmappedBamToAlignedBam {
